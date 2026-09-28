@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navalha de Ouro — Painel da Fila</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="topo">
+    <div class="poste" aria-hidden="true"></div>
+    <div class="topo-texto">
+      <h1>Navalha de Ouro</h1>
+      <p>Painel da fila de atendimento <span class="ao-vivo">ao vivo</span></p>
+    </div>
+    <div class="relogio" id="relogio">--:--</div>
+  </header>
+
+  <main>
+
+    <section class="kpis" aria-label="Resumo do dia">
+      <article class="kpi">
+        <span class="kpi-rotulo">Na fila agora</span>
+        <strong class="kpi-valor" id="kpi-fila">0</strong>
+      </article>
+      <article class="kpi">
+        <span class="kpi-rotulo">Atendidos hoje</span>
+        <strong class="kpi-valor" id="kpi-atendidos">0</strong>
+      </article>
+      <article class="kpi">
+        <span class="kpi-rotulo">Faturamento</span>
+        <strong class="kpi-valor" id="kpi-faturamento">R$ 0</strong>
+      </article>
+      <article class="kpi">
+        <span class="kpi-rotulo">Espera estimada</span>
+        <strong class="kpi-valor" id="kpi-espera">0 min</strong>
+      </article>
+    </section>
+
+    <div class="colunas">
+
+      <section class="card">
+        <h2>Entrar na fila</h2>
+        <form id="form" autocomplete="off">
+          <label>
+            Nome do cliente
+            <input id="nome" required maxlength="100" placeholder="Ex.: João Pedro">
+          </label>
+          <label>
+            Telefone <span class="opcional">(opcional)</span>
+            <input id="telefone" maxlength="20" placeholder="(11) 90000-0000">
+          </label>
+          <label>
+            Barbeiro
+            <select id="barbeiro" required></select>
+          </label>
+          <label>
+            Serviço
+            <select id="servico" required></select>
+          </label>
+
+          <p class="resumo" id="resumo"></p>
+
+          <button type="submit" id="btn-add">
+            <span>Adicionar à fila</span>
+          </button>
+        </form>
+
+        <div class="ranking">
+          <h3>Barbeiros hoje</h3>
+          <ul id="ranking"></ul>
+        </div>
+      </section>
+
+      <section class="card fila-card">
+        <div class="fila-topo">
+          <h2>Fila de hoje</h2>
+          <input id="busca" class="busca" placeholder="Buscar cliente...">
+        </div>
+        <ul id="lista" class="fila"></ul>
+        <p id="vazio" class="vazio">Ninguém na fila. Cadeira livre.</p>
+      </section>
+
+    </div>
+
+    <details class="card gestao" id="gestao">
+      <summary>
+        <h2>Preços e disponibilidade</h2>
+        <span class="dica"></span>
+      </summary>
+
+      <p class="ajuda">
+        Cada barbeiro tem a própria tabela de preços. Desmarque quem não está
+        atendendo hoje — quem já está na fila dele continua normalmente.
+      </p>
+
+      <div class="tabela-rolagem">
+        <table class="tabela-precos">
+          <thead id="gestao-cabecalho"></thead>
+          <tbody id="gestao-corpo"></tbody>
+        </table>
+      </div>
+    </details>
+  </main>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

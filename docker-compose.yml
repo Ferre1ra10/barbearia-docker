@@ -1,0 +1,55 @@
+services:
+
+  front:
+    build: ./frontend
+    container_name: barbearia-front
+    ports:
+      - "8084:80"
+    networks:
+      - rede-barbearia
+    depends_on:
+      - back
+
+  back:
+    build: ./backend
+    container_name: barbearia-back
+    ports:
+      - "3004:3004"
+    environment:
+      DB_HOST: banco
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: barbearia
+    networks:
+      - rede-barbearia
+    depends_on:
+      banco:
+        condition: service_healthy
+    restart: unless-stopped
+
+  banco:
+    image: mysql:8.0
+    container_name: barbearia-banco
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: barbearia
+    volumes:
+      - dados_barbearia:/var/lib/mysql
+      - ./banco/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - rede-barbearia
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+networks:
+
+  rede-barbearia:
+    external: true
+
+volumes:
+
+  dados_barbearia:
+    external: true
